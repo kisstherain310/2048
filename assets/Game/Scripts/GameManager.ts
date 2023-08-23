@@ -5,7 +5,9 @@
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
+import Block from "./Block";
 import MatrixBlock from "./MatrixBlock";
+import SimplePool, { PoolType } from "./Pool/SimplePool";
 import Utilities from "./Utilities";
 
 const { ccclass, property } = cc._decorator;
@@ -21,24 +23,36 @@ export default class GameManager extends cc.Component {
     private list: cc.Node[] = [];
 
     protected onLoad(): void {
-        // this.node.on(cc.Node.EventType.TOUCH_START, this.onTouchBegan, this);
-        // this.node.on(cc.Node.EventType.TOUCH_MOVE, this.onTouchMoved, this);
+        cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
         for (let i = 0; i <= 15; i++) this.list.push(null);
     }
 
     protected onDestroy(): void {
-        // this.node.off(cc.Node.EventType.TOUCH_START, this.onTouchBegan, this);
-        // this.node.off(cc.Node.EventType.TOUCH_MOVE, this.onTouchMoved, this);
+        cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
+    }
+
+    private onKeyDown(event: cc.Event.EventKeyboard): void{
+        switch(event.keyCode){
+            case cc.macro.KEY.left:
+                this.handleEvent('left');
+                break;
+            case cc.macro.KEY.right:
+                this.handleEvent('right');
+                break;
+            case cc.macro.KEY.up:
+                this.handleEvent('up');
+                break;
+            case cc.macro.KEY.down:
+                this.handleEvent('down');
+                break;
+        }
     }
 
     private generateBlock(): void {
-        const newBlock = cc.instantiate(this.prefab);
-        this.node.addChild(newBlock);
-
         const posBlock = MatrixBlock.generateBlock();
-        newBlock.setWorldPosition(this.Stage_1[posBlock.i * 4 + posBlock.j].getWorldPosition());
-        // newBlock.getComponent('Block').spawnEffect();
-        this.list[posBlock.i * 4 + posBlock.j] = newBlock;
+        let block = SimplePool.spawnT<Block>(PoolType.Block, this.Stage_1[posBlock.i * 4 + posBlock.j].getWorldPosition(), 0);
+        this.list[posBlock.i * 4 + posBlock.j] = block.node;
+        block.spawnEffect();
     }
 
     protected start(): void {
@@ -46,11 +60,6 @@ export default class GameManager extends cc.Component {
         this.generateBlock();
     }
 
-    private Debug(){
-        for(let i = 0; i <= 3; i++) console.log(MatrixBlock.Matrix[i][0], MatrixBlock.Matrix[i][1], MatrixBlock.Matrix[i][2], MatrixBlock.Matrix[i][3]);
-        console.log('het');
-    }   
-    // chưa update Matrix
     public handleEvent(direction: string) {
         switch (direction) {
             case 'right':
@@ -149,6 +158,6 @@ export default class GameManager extends cc.Component {
 
         setTimeout(()=> {
             this.generateBlock();
-        }, 500)
+        }, 500)   
     }
 }
