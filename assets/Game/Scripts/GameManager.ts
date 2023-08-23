@@ -37,35 +37,21 @@ export default class GameManager extends cc.Component {
 
         const posBlock = MatrixBlock.generateBlock();
         newBlock.setWorldPosition(this.Stage_1[posBlock.i * 4 + posBlock.j].getWorldPosition());
-
-        //newBlock.getComponent('Block').moveTo(cc.v3(0, 0, 0));
+        // newBlock.getComponent('Block').spawnEffect();
         this.list[posBlock.i * 4 + posBlock.j] = newBlock;
     }
 
     protected start(): void {
         this.generateBlock();
         this.generateBlock();
-
-        // this.handleEvent('down');
-        // setTimeout(() => {
-        //     this.handleEvent('right');
-        //     setTimeout(() => {
-        //         this.handleEvent('up');
-        //     }, 1000)
-        // }, 1000);
-        this.handleEvent('right');
-        // this.handleEvent('up');
-        // this.handleEvent('down');
-        // this.handleEvent('left');
     }
 
     private Debug(){
         for(let i = 0; i <= 3; i++) console.log(MatrixBlock.Matrix[i][0], MatrixBlock.Matrix[i][1], MatrixBlock.Matrix[i][2], MatrixBlock.Matrix[i][3]);
-    }
+        console.log('het');
+    }   
     // chưa update Matrix
     public handleEvent(direction: string) {
-
-        // this.Debug();
         switch (direction) {
             case 'right':
                 for (let i = 0; i <= 3; i++) {
@@ -78,9 +64,13 @@ export default class GameManager extends cc.Component {
                             const pathLength: cc.Vec3 = Utilities.subVec3(this.list[i * 4 + j].getWorldPosition(), target);
                             this.list[i * 4 + j].getComponent('Block').moveTo(pathLength);
 
-                            // const temp = MatrixBlock.Matrix[i][j];
-                            // MatrixBlock.Matrix[i][j] = 0;
-                            // MatrixBlock.Matrix[i][rightLimit] = temp;
+                            const temp = MatrixBlock.Matrix[i][j];
+                            MatrixBlock.Matrix[i][j] = 0;
+                            MatrixBlock.Matrix[i][rightLimit] = temp;
+
+                            const tmp = this.list[i * 4 + j];
+                            this.list[i * 4 + j] = null;
+                            this.list[i * 4 + rightLimit] = tmp;
                             rightLimit--;
                         }
                     }
@@ -97,8 +87,13 @@ export default class GameManager extends cc.Component {
                             const pathLength: cc.Vec3 = Utilities.subVec3(this.list[i * 4 + j].getWorldPosition(), target);
                             this.list[i * 4 + j].getComponent('Block').moveTo(pathLength);
 
-                            // MatrixBlock.Matrix[i][leftLimit] = MatrixBlock.Matrix[i][j];
-                            // if(j != leftLimit) MatrixBlock.Matrix[i][j] = 0;
+                            const temp = MatrixBlock.Matrix[i][j];
+                            MatrixBlock.Matrix[i][j] = 0;
+                            MatrixBlock.Matrix[i][leftLimit] = temp;
+
+                            const tmp = this.list[i * 4 + j];
+                            this.list[i * 4 + j] = null;
+                            this.list[i * 4 + leftLimit] = tmp;
                             leftLimit++;
                         }
                     }
@@ -115,8 +110,13 @@ export default class GameManager extends cc.Component {
                             const pathLength: cc.Vec3 = Utilities.subVec3(this.list[i * 4 + j].getWorldPosition(), target);
                             this.list[i * 4 + j].getComponent('Block').moveTo(pathLength);
 
-                            // MatrixBlock.Matrix[i][topLimit] = MatrixBlock.Matrix[i][j];
-                            // if(j != topLimit) MatrixBlock.Matrix[i][j] = 0;
+                            const temp = MatrixBlock.Matrix[i][j];
+                            MatrixBlock.Matrix[i][j] = 0;
+                            MatrixBlock.Matrix[topLimit][j] = temp;
+
+                            const tmp = this.list[i * 4 + j];
+                            this.list[i * 4 + j] = null;
+                            this.list[topLimit * 4 + j] = tmp;
                             topLimit++;
                         }
                     }
@@ -133,13 +133,22 @@ export default class GameManager extends cc.Component {
                             const pathLength: cc.Vec3 = Utilities.subVec3(this.list[i * 4 + j].getWorldPosition(), target);
                             this.list[i * 4 + j].getComponent('Block').moveTo(pathLength);
 
-                            // MatrixBlock.Matrix[i][bottomLimit] = MatrixBlock.Matrix[i][j];
-                            // if(j != bottomLimit) MatrixBlock.Matrix[i][j] = 0;
+                            const temp = MatrixBlock.Matrix[i][j];
+                            MatrixBlock.Matrix[i][j] = 0;
+                            MatrixBlock.Matrix[bottomLimit][j] = temp;
+
+                            const tmp = this.list[i * 4 + j];
+                            this.list[i * 4 + j] = null;
+                            this.list[bottomLimit * 4 + j] = tmp;
                             bottomLimit--;
                         }
                     }
                 }
                 break;
         }
+
+        setTimeout(()=> {
+            this.generateBlock();
+        }, 500)
     }
 }

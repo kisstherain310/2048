@@ -46,4 +46,8 @@ export default class Utilities{
     const result: cc.Vec3 = cc.v3(B.x + A.x, B.y + A.y, B.z + A.z);
     return result;
   }
+
+  public static swap(A: any, B: any){
+    let tmp = A; A = B; B = tmp;
+  }
 }
