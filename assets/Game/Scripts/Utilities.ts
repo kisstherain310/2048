@@ -47,7 +47,10 @@ export default class Utilities{
     return result;
   }
 
-  public static swap(A: any, B: any){
-    let tmp = A; A = B; B = tmp;
+  public static convertToCCColor(color: string): cc.Color{
+    var r = parseInt(color.substring(0, 2), 16);
+    var g = parseInt(color.substring(2, 4), 16);
+    var b = parseInt(color.substring(4, 6), 16);
+    return new cc.Color(r, g, b);
   }
 }

@@ -12,10 +12,17 @@ const {ccclass, property} = cc._decorator;
 
 @ccclass
 export default class Block extends PoolMember {
-    private color: string = '#000000';
-    private value: number = 2;
+
+    @property(cc.Label)
+    value: cc.Label = null;
+
     private timeSpawn: number = 1;
     private timeMove: number = 0.5;
+
+    public changeProp(color: string, value: number){
+        this.value.string = `${value}`;
+        this.node.children[0].color = Utilities.convertToCCColor(color);
+    }
  
     public moveTo(pathLength: cc.Vec3){
         const newPos = Utilities.addVec3(this.node.position, pathLength);

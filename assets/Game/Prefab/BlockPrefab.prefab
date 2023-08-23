@@ -304,6 +304,9 @@
     },
     "_enabled": true,
     "poolType": 2,
+    "value": {
+      "__id__": 6
+    },
     "_id": ""
   },
   {

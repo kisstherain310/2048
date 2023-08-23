@@ -12,6 +12,11 @@ import Utilities from "./Utilities";
 
 const { ccclass, property } = cc._decorator;
 
+enum GameState{
+    None = 0,
+    Spawning = 1,
+}
+
 @ccclass
 export default class GameManager extends cc.Component {
     @property(cc.Prefab)
@@ -21,6 +26,7 @@ export default class GameManager extends cc.Component {
     Stage_1: cc.Node[] = [];
 
     private list: cc.Node[] = [];
+    private gameState: GameState = GameState.None;
 
     protected onLoad(): void {
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
@@ -53,6 +59,7 @@ export default class GameManager extends cc.Component {
         let block = SimplePool.spawnT<Block>(PoolType.Block, this.Stage_1[posBlock.i * 4 + posBlock.j].getWorldPosition(), 0);
         this.list[posBlock.i * 4 + posBlock.j] = block.node;
         block.spawnEffect();
+        block.changeProp('03fcdb', 16);
     }
 
     protected start(): void {
