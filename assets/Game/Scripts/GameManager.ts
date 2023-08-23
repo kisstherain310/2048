@@ -53,13 +53,19 @@ export default class GameManager extends cc.Component {
         //         this.handleEvent('up');
         //     }, 1000)
         // }, 1000);
-        //this.handleEvent('right');
+        this.handleEvent('right');
         // this.handleEvent('up');
         // this.handleEvent('down');
         // this.handleEvent('left');
     }
+
+    private Debug(){
+        for(let i = 0; i <= 3; i++) console.log(MatrixBlock.Matrix[i][0], MatrixBlock.Matrix[i][1], MatrixBlock.Matrix[i][2], MatrixBlock.Matrix[i][3]);
+    }
     // chưa update Matrix
     public handleEvent(direction: string) {
+
+        // this.Debug();
         switch (direction) {
             case 'right':
                 for (let i = 0; i <= 3; i++) {
