@@ -6,9 +6,8 @@
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
 import Block from "./Block";
-import MatrixBlock from "./MatrixBlock";
+import Board from "./Board";
 import SimplePool, { PoolType } from "./Pool/SimplePool";
-import Utilities from "./Utilities";
 
 const { ccclass, property } = cc._decorator;
 
@@ -36,6 +35,7 @@ export default class GameManager extends cc.Component {
 
     private gameState: GameState = GameState.None;
     public isChange: boolean = false;
+    public previousBoard: Block[][];
 
     protected onLoad(): void {
         GameManager.ins = this;
@@ -48,6 +48,8 @@ export default class GameManager extends cc.Component {
 
     private onKeyDown(event: cc.Event.EventKeyboard): void {
         if (this.gameState == GameState.Spawning) return;
+        this.previousBoard = Board.Matrix;
+        
         switch (event.keyCode) {
             case cc.macro.KEY.left:
                 this.handleEvent('left');
@@ -65,10 +67,10 @@ export default class GameManager extends cc.Component {
     }
 
     private generateBlock(): void {
-        const posBlock = MatrixBlock.generateBlock();
+        const posBlock = Board.generateBlock();
         let block = SimplePool.spawnT<Block>(PoolType.Block, this.Stage_1[posBlock.i * 4 + posBlock.j].getWorldPosition(), 0);
         block.spawnEffect();
-        MatrixBlock.Matrix[posBlock.i][posBlock.j] = block;
+        Board.Matrix[posBlock.i][posBlock.j] = block;
     }
 
     protected start(): void {
@@ -79,16 +81,16 @@ export default class GameManager extends cc.Component {
     public handleEvent(direction: string){
         switch(direction){
             case 'right':
-                MatrixBlock.moveRight();
+                Board.moveRight();
                 break;
             case 'left':
-                MatrixBlock.moveLeft();
+                Board.moveLeft();
                 break;
             case 'up':
-                MatrixBlock.moveUp();
+                Board.moveUp();
                 break;
             case 'down':
-                MatrixBlock.moveDown();
+                Board.moveDown();
                 break;
         }
         
