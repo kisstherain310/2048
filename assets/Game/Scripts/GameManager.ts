@@ -35,6 +35,7 @@ export default class GameManager extends cc.Component {
     Stage_1: cc.Node[] = [];
 
     private gameState: GameState = GameState.None;
+    public isChange: boolean = false;
 
     protected onLoad(): void {
         GameManager.ins = this;
@@ -91,10 +92,13 @@ export default class GameManager extends cc.Component {
                 break;
         }
         
-        this.gameState = GameState.Spawning;
-        setTimeout(() => {
-            this.generateBlock();
-            this.gameState = GameState.None;
-        }, 500)
+        if(this.isChange){
+            this.gameState = GameState.Spawning;
+            setTimeout(() => {
+                this.generateBlock();
+                this.gameState = GameState.None;
+            }, 150)
+            this.isChange = false;
+        }
     }
 }

@@ -17,14 +17,15 @@ export default class Block extends PoolMember {
     @property(cc.Label)
     value: cc.Label = null;
 
-    private timeSpawn: number = 0.2;
-    private timeMove: number = 0.5;
+    private timeSpawn: number = 0.1;
+    private timeMove: number = 0.15;
     
     public currentValue: number = 2;
 
     public changeProp(){
         this.value.string = `${this.currentValue}`;
         this.node.children[0].color = Utilities.convertToCCColor(TypeBlock[this.currentValue]);
+        this.powerUp();
     }
     public changeValue(){
         this.currentValue *= 2;
@@ -52,7 +53,7 @@ export default class Block extends PoolMember {
     }
     public powerUp(){
         cc.tween(this.node)
-        .to(this.timeSpawn / 2, {scale: 1.2})
+        .to(this.timeSpawn / 2, {scale: 1.1})
         .to(this.timeSpawn / 2, {scale: 1})
         .start();
     }

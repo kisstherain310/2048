@@ -6,7 +6,7 @@ const {ccclass, property} = cc._decorator;
 
 @ccclass
 export default class MatrixBlock{
-
+    private static timeSpawn:number = 150;
     public static Matrix: Block[][]  = [
         [null, null, null, null],
         [null, null, null, null],
@@ -26,7 +26,7 @@ export default class MatrixBlock{
         this.Matrix[i][j].moveTo(pathLength, true);
         this.Matrix[i][index + direction].changeValue();
 
-        setTimeout(() => this.Matrix[i][index + direction].changeProp(), 500);
+        setTimeout(() => this.Matrix[i][index + direction].changeProp(), this.timeSpawn);
         this.Matrix[i][j] = null;
     }
 
@@ -36,7 +36,7 @@ export default class MatrixBlock{
         this.Matrix[i][j].moveTo(pathLength, true);
         this.Matrix[index + direction][j].changeValue();
 
-        setTimeout(() => this.Matrix[index + direction][j].changeProp(), 500);
+        setTimeout(() => this.Matrix[index + direction][j].changeProp(), this.timeSpawn);
         this.Matrix[i][j] = null;
     }
 
@@ -66,8 +66,10 @@ export default class MatrixBlock{
                     while(this.Matrix[i][index] != null && index > j) index--;
                     
                     if(index < 3 && this.Matrix[i][index + 1].currentValue == this.Matrix[i][j].currentValue){
+                        GameManager.Ins.isChange = true;
                         this.updateHorizol(i, j, index, 1);
                     } else if(index != j) {
+                        GameManager.Ins.isChange = true;
                         this.moveHorizol(i, j, index);
                     }
                 }
@@ -83,8 +85,10 @@ export default class MatrixBlock{
                     while(this.Matrix[i][index] != null && index < j) index++;
                     
                     if(index > 0 && this.Matrix[i][index - 1].currentValue == this.Matrix[i][j].currentValue){
+                        GameManager.Ins.isChange = true;
                         this.updateHorizol(i, j, index, -1);
                     } else if(index != j) {
+                        GameManager.Ins.isChange = true;
                         this.moveHorizol(i, j, index);
                     }
                 }
@@ -100,8 +104,10 @@ export default class MatrixBlock{
                     while(this.Matrix[index][j] && index < i) index++;
                     
                     if(index > 0 && this.Matrix[index - 1][j].currentValue == this.Matrix[i][j].currentValue){
+                        GameManager.Ins.isChange = true;
                         this.updateVertical(i, j, index, -1);
                     } else if(index != i) {
+                        GameManager.Ins.isChange = true;
                         this.moveVertical(i, j, index);
                     }
                 }
@@ -117,8 +123,10 @@ export default class MatrixBlock{
                     while(this.Matrix[index][j] && index > i) index--;
                     
                     if(index < 3 && this.Matrix[index + 1][j].currentValue == this.Matrix[i][j].currentValue){
+                        GameManager.Ins.isChange = true;
                         this.updateVertical(i, j, index, 1);
                     } else if(index != i) {
+                        GameManager.Ins.isChange = true;
                         this.moveVertical(i, j, index)
                     }
                 }
