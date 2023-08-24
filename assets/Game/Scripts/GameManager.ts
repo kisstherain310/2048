@@ -79,6 +79,7 @@ export default class GameManager extends cc.Component {
                                 const curPos = i * 4 + j, lastPos = i * 4 + index + 1;
                                 const pathLength: cc.Vec3 = Utilities.subVec3(this.Stage_1[curPos].getWorldPosition(), this.Stage_1[lastPos].getWorldPosition());
                                 MatrixBlock.Matrix[i][j].moveTo(pathLength, true);
+                                MatrixBlock.Matrix[i][index + 1].changeValue();
 
                                 setTimeout(() => MatrixBlock.Matrix[i][index + 1].changeProp('34eb40'), 500);
                                 MatrixBlock.Matrix[i][j] = null;
@@ -105,6 +106,7 @@ export default class GameManager extends cc.Component {
                                 const curPos = i * 4 + j, lastPos = i * 4 + index - 1;
                                 const pathLength: cc.Vec3 = Utilities.subVec3(this.Stage_1[curPos].getWorldPosition(), this.Stage_1[lastPos].getWorldPosition());
                                 MatrixBlock.Matrix[i][j].moveTo(pathLength, true);
+                                MatrixBlock.Matrix[i][index - 1].changeValue();
 
                                 setTimeout(() => MatrixBlock.Matrix[i][index - 1].changeProp('34eb40'), 500);
                                 MatrixBlock.Matrix[i][j] = null;
@@ -131,10 +133,9 @@ export default class GameManager extends cc.Component {
                                 const curPos = i * 4 + j, lastPos = (index - 1) * 4 + j;
                                 const pathLength: cc.Vec3 = Utilities.subVec3(this.Stage_1[curPos].getWorldPosition(), this.Stage_1[lastPos].getWorldPosition());
                                 MatrixBlock.Matrix[i][j].moveTo(pathLength, true);
+                                MatrixBlock.Matrix[index - 1][j].changeValue();
 
-                                setTimeout(() => {
-                                    MatrixBlock.Matrix[index - 1][j].changeProp('34eb40')
-                                }, 500);
+                                setTimeout(() => MatrixBlock.Matrix[index - 1][j].changeProp('34eb40'), 500);
                                 MatrixBlock.Matrix[i][j] = null;
                             } else if(index != i) {
                                 const curPos = i * 4 + j, lastPos = index * 4 + j;
@@ -159,10 +160,9 @@ export default class GameManager extends cc.Component {
                                 const curPos = i * 4 + j, lastPos = (index + 1) * 4 + j;
                                 const pathLength: cc.Vec3 = Utilities.subVec3(this.Stage_1[curPos].getWorldPosition(), this.Stage_1[lastPos].getWorldPosition());
                                 MatrixBlock.Matrix[i][j].moveTo(pathLength, true);
+                                MatrixBlock.Matrix[index + 1][j].changeValue();
 
-                                setTimeout(() => {
-                                    MatrixBlock.Matrix[index + 1][j].changeProp('34eb40')
-                                }, 500);
+                                setTimeout(() => MatrixBlock.Matrix[index + 1][j].changeProp('34eb40'), 500);
                                 MatrixBlock.Matrix[i][j] = null;
                             } else if(index != i) {
                                 const curPos = i * 4 + j, lastPos = index * 4 + j;

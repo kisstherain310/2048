@@ -22,8 +22,11 @@ export default class Block extends PoolMember {
     public currentValue: number = 2;
 
     public changeProp(color: string){
-        this.value.string = `${this.currentValue *= 2}`;
+        this.value.string = `${this.currentValue}`;
         this.node.children[0].color = Utilities.convertToCCColor(color);
+    }
+    public changeValue(){
+        this.currentValue *= 2;
     }
 
     private resetBlock(){
