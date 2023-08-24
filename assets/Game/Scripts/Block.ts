@@ -5,6 +5,7 @@
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
+import { TypeBlock } from "./GameConstant";
 import PoolMember from "./Pool/PoolMember";
 import SimplePool from "./Pool/SimplePool";
 import Utilities from "./Utilities";
@@ -21,9 +22,9 @@ export default class Block extends PoolMember {
     
     public currentValue: number = 2;
 
-    public changeProp(color: string){
+    public changeProp(){
         this.value.string = `${this.currentValue}`;
-        this.node.children[0].color = Utilities.convertToCCColor(color);
+        this.node.children[0].color = Utilities.convertToCCColor(TypeBlock[this.currentValue]);
     }
     public changeValue(){
         this.currentValue *= 2;
@@ -32,7 +33,7 @@ export default class Block extends PoolMember {
     private resetBlock(){
         this.currentValue = 2;
         this.value.string = `2`;
-        this.node.children[0].color = Utilities.convertToCCColor('7A7785');
+        this.node.children[0].color = Utilities.convertToCCColor('eee4da');
     }
 
     public onDeath(){

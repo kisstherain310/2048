@@ -19,6 +19,15 @@ enum GameState {
 
 @ccclass
 export default class GameManager extends cc.Component {
+
+    // singleton
+    private static ins : GameManager;
+    public static get Ins() : GameManager
+    {
+        return GameManager.ins;
+    }
+    //------------------------------------
+
     @property(cc.Prefab)
     prefab: cc.Prefab = null;
 
@@ -28,6 +37,7 @@ export default class GameManager extends cc.Component {
     private gameState: GameState = GameState.None;
 
     protected onLoad(): void {
+        GameManager.ins = this;
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
     }
 
@@ -63,118 +73,21 @@ export default class GameManager extends cc.Component {
     protected start(): void {
         this.generateBlock();
         this.generateBlock();
-        this.generateBlock();
     }
 
     public handleEvent(direction: string){
         switch(direction){
             case 'right':
-                for(let i = 0; i < 4; i++){
-                    for(let j = 2; j >= 0; j--){
-                        if(MatrixBlock.Matrix[i][j]){
-                            let index = 3;
-                            while(MatrixBlock.Matrix[i][index] != null && index > j) index--;
-                            
-                            if(index < 3 && MatrixBlock.Matrix[i][index + 1].currentValue == MatrixBlock.Matrix[i][j].currentValue){
-                                const curPos = i * 4 + j, lastPos = i * 4 + index + 1;
-                                const pathLength: cc.Vec3 = Utilities.subVec3(this.Stage_1[curPos].getWorldPosition(), this.Stage_1[lastPos].getWorldPosition());
-                                MatrixBlock.Matrix[i][j].moveTo(pathLength, true);
-                                MatrixBlock.Matrix[i][index + 1].changeValue();
-
-                                setTimeout(() => MatrixBlock.Matrix[i][index + 1].changeProp('34eb40'), 500);
-                                MatrixBlock.Matrix[i][j] = null;
-                            } else if(index != j) {
-                                const curPos = i * 4 + j, lastPos = i * 4 + index;
-                                const pathLength: cc.Vec3 = Utilities.subVec3(this.Stage_1[curPos].getWorldPosition(), this.Stage_1[lastPos].getWorldPosition());
-                                MatrixBlock.Matrix[i][j].moveTo(pathLength, false);
-
-                                MatrixBlock.Matrix[i][index] = MatrixBlock.Matrix[i][j];
-                                MatrixBlock.Matrix[i][j] = null;
-                            }
-                        }
-                    }
-                }
+                MatrixBlock.moveRight();
                 break;
             case 'left':
-                for(let i = 0; i < 4; i++){
-                    for(let j = 1; j <= 3; j++){
-                        if(MatrixBlock.Matrix[i][j]){
-                            let index = 0;
-                            while(MatrixBlock.Matrix[i][index] != null && index < j) index++;
-                            
-                            if(index > 0 && MatrixBlock.Matrix[i][index - 1].currentValue == MatrixBlock.Matrix[i][j].currentValue){
-                                const curPos = i * 4 + j, lastPos = i * 4 + index - 1;
-                                const pathLength: cc.Vec3 = Utilities.subVec3(this.Stage_1[curPos].getWorldPosition(), this.Stage_1[lastPos].getWorldPosition());
-                                MatrixBlock.Matrix[i][j].moveTo(pathLength, true);
-                                MatrixBlock.Matrix[i][index - 1].changeValue();
-
-                                setTimeout(() => MatrixBlock.Matrix[i][index - 1].changeProp('34eb40'), 500);
-                                MatrixBlock.Matrix[i][j] = null;
-                            } else if(index != j) {
-                                const curPos = i * 4 + j, lastPos = i * 4 + index;
-                                const pathLength: cc.Vec3 = Utilities.subVec3(this.Stage_1[curPos].getWorldPosition(), this.Stage_1[lastPos].getWorldPosition());
-                                MatrixBlock.Matrix[i][j].moveTo(pathLength, false);
-
-                                MatrixBlock.Matrix[i][index] = MatrixBlock.Matrix[i][j];
-                                MatrixBlock.Matrix[i][j] = null;
-                            }
-                        }
-                    }
-                }
+                MatrixBlock.moveLeft();
                 break;
             case 'up':
-                for(let j = 0; j < 4; j++){
-                    for(let i = 1; i <= 3; i++){
-                        if(MatrixBlock.Matrix[i][j]){
-                            let index = 0;
-                            while(MatrixBlock.Matrix[index][j] && index < i) index++;
-                            
-                            if(index > 0 && MatrixBlock.Matrix[index - 1][j].currentValue == MatrixBlock.Matrix[i][j].currentValue){
-                                const curPos = i * 4 + j, lastPos = (index - 1) * 4 + j;
-                                const pathLength: cc.Vec3 = Utilities.subVec3(this.Stage_1[curPos].getWorldPosition(), this.Stage_1[lastPos].getWorldPosition());
-                                MatrixBlock.Matrix[i][j].moveTo(pathLength, true);
-                                MatrixBlock.Matrix[index - 1][j].changeValue();
-
-                                setTimeout(() => MatrixBlock.Matrix[index - 1][j].changeProp('34eb40'), 500);
-                                MatrixBlock.Matrix[i][j] = null;
-                            } else if(index != i) {
-                                const curPos = i * 4 + j, lastPos = index * 4 + j;
-                                const pathLength: cc.Vec3 = Utilities.subVec3(this.Stage_1[curPos].getWorldPosition(), this.Stage_1[lastPos].getWorldPosition());
-                                MatrixBlock.Matrix[i][j].moveTo(pathLength, false);
-
-                                MatrixBlock.Matrix[index][j] = MatrixBlock.Matrix[i][j];
-                                MatrixBlock.Matrix[i][j] = null;
-                            }
-                        }
-                    }
-                }
+                MatrixBlock.moveUp();
                 break;
             case 'down':
-                for(let j = 0; j < 4; j++){
-                    for(let i = 2; i >= 0; i--){
-                        if(MatrixBlock.Matrix[i][j]){
-                            let index = 3;
-                            while(MatrixBlock.Matrix[index][j] && index > i) index--;
-                            
-                            if(index < 3 && MatrixBlock.Matrix[index + 1][j].currentValue == MatrixBlock.Matrix[i][j].currentValue){
-                                const curPos = i * 4 + j, lastPos = (index + 1) * 4 + j;
-                                const pathLength: cc.Vec3 = Utilities.subVec3(this.Stage_1[curPos].getWorldPosition(), this.Stage_1[lastPos].getWorldPosition());
-                                MatrixBlock.Matrix[i][j].moveTo(pathLength, true);
-                                MatrixBlock.Matrix[index + 1][j].changeValue();
-
-                                setTimeout(() => MatrixBlock.Matrix[index + 1][j].changeProp('34eb40'), 500);
-                                MatrixBlock.Matrix[i][j] = null;
-                            } else if(index != i) {
-                                const curPos = i * 4 + j, lastPos = index * 4 + j;
-                                const pathLength: cc.Vec3 = Utilities.subVec3(this.Stage_1[curPos].getWorldPosition(), this.Stage_1[lastPos].getWorldPosition());
-                                MatrixBlock.Matrix[i][j].moveTo(pathLength, false);
-
-                                MatrixBlock.Matrix[index][j] = MatrixBlock.Matrix[i][j];
-                                MatrixBlock.Matrix[i][j] = null;
-                            }
-                        }
-                    }
-                }
+                MatrixBlock.moveDown();
                 break;
         }
         
