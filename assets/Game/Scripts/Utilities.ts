@@ -33,7 +33,7 @@ export default class Utilities{
 
   public static randomIndex(): {i: number, j: number}{
     const x = this.random(0, 3);
-    const y = this.random(0, 3);
+    const y = this.random(3, 3);
     return {i: x, j: y};
   }
 

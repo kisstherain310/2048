@@ -41,7 +41,6 @@ export default class SimplePool {
     }
 
     static spawn(nodeType: PoolType, pos: cc.Vec3, angle: number = 0): PoolMember {
-        console.log(nodeType);
         if(!this.isHasPool(nodeType)) console.error(" NEED PRELOAD POOL : " + nodeType + "!!!");
         return this.getPool(nodeType).spawn(pos, angle);
     }

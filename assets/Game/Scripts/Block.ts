@@ -6,28 +6,44 @@
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
 import PoolMember from "./Pool/PoolMember";
+import SimplePool from "./Pool/SimplePool";
 import Utilities from "./Utilities";
 
 const {ccclass, property} = cc._decorator;
 
 @ccclass
 export default class Block extends PoolMember {
-
     @property(cc.Label)
     value: cc.Label = null;
 
-    private timeSpawn: number = 1;
+    private timeSpawn: number = 0.2;
     private timeMove: number = 0.5;
+    
+    public currentValue: number = 2;
 
-    public changeProp(color: string, value: number){
-        this.value.string = `${value}`;
+    public changeProp(color: string){
+        this.value.string = `${this.currentValue *= 2}`;
         this.node.children[0].color = Utilities.convertToCCColor(color);
     }
+
+    private resetBlock(){
+        this.currentValue = 2;
+        this.value.string = `2`;
+        this.node.children[0].color = Utilities.convertToCCColor('7A7785');
+    }
+
+    public onDeath(){
+        this.resetBlock();
+        SimplePool.despawn(this);
+    }
  
-    public moveTo(pathLength: cc.Vec3){
+    public moveTo(pathLength: cc.Vec3, isDead: boolean){
         const newPos = Utilities.addVec3(this.node.position, pathLength);
         cc.tween(this.node)
         .to(this.timeMove, {position: newPos}, {easing: 'linear'})
+        .call(() => {
+            if(isDead) this.onDeath();
+        })
         .start();
     }
     public powerUp(){
