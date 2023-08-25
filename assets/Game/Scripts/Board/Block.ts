@@ -5,11 +5,12 @@
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
-import { TypeBlock } from "./GameConstant";
-import PoolMember from "./Pool/PoolMember";
-import SimplePool from "./Pool/SimplePool";
-import Score from "./Score";
-import Utilities from "./Utilities";
+import { TypeBlock } from "../GameConstant";
+import PoolMember from "../Pool/PoolMember";
+import SimplePool from "../Pool/SimplePool";
+import Score from "../Score/Score";
+import Utilities from "../Utilities";
+
 
 const {ccclass, property} = cc._decorator;
 

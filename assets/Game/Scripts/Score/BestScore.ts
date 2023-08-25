@@ -28,6 +28,5 @@ export default class BestScore extends cc.Component {
     public changeBestScore(){
         if(this.bestSCore < Score.Ins.score) this.bestSCore = Score.Ins.score;
         this.bestScore.string = `${this.bestSCore}`;
-        console.log(this.bestSCore);
     }
 }

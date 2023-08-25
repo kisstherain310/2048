@@ -5,11 +5,11 @@
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
-import BestScore from "../BestScore";
-import Board from "../Board";
+import Board from "../Board/Board";
 import { TypeBlock } from "../GameConstant";
 import GameManager, { GameState } from "../Manager/GameManager";
 import UIManager from "../Manager/UIManager";
+import BestScore from "../Score/BestScore";
 import Utilities from "../Utilities";
 
 const {ccclass, property} = cc._decorator;

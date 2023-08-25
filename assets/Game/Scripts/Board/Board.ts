@@ -1,8 +1,8 @@
-import BestScore from "./BestScore";
+import GameManager from "../Manager/GameManager";
+import Score from "../Score/Score";
+import Utilities from "../Utilities";
 import Block from "./Block";
-import GameManager from "./Manager/GameManager";
-import Score from "./Score";
-import Utilities from "./Utilities";
+
 
 const { ccclass, property } = cc._decorator;
 

@@ -5,7 +5,7 @@
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
-import Board from "../Board";
+import Board from "../Board/Board";
 import GameManager, { GameState } from "../Manager/GameManager";
 import UIManager from "../Manager/UIManager";
 

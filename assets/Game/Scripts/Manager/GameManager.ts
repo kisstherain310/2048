@@ -5,12 +5,12 @@
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
-import Block from "../Block";
-import Board from "../Board";
+import Block from "../Board/Block";
+import Board from "../Board/Board";
 import { Game } from "../GameConstant";
 import ReplayButton from "../GameFeature/Replay";
 import SimplePool, { PoolType } from "../Pool/SimplePool";
-import Score from "../Score";
+import Score from "../Score/Score";
 import UIManager from "./UIManager";
 
 /*
