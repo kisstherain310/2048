@@ -17,11 +17,14 @@ export default class Undo extends cc.Component {
     }
 
     protected onDestroy(): void {
-        this.node.off(cc.Node.EventType.TOUCH_START, this.onTouchBegan, this);
+        this.node.off(cc.Node.EventType.TOUCH_END, this.onTouchBegan, this);
     }
 
     private onTouchBegan() : void{
-        Board.Matrix = GameManager.Ins.previousBoard;
-        console.log('cu roi' ,GameManager.Ins.previousBoard);
+        /*
+            1. Đi từ A đến B
+            2. Kh di chuyển
+            3. Di chuyển rồi lên điểm
+        */
     }
 }

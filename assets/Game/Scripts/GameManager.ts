@@ -36,7 +36,6 @@ export default class GameManager extends cc.Component {
 
     private gameState: GameState = GameState.None;
     public isChange: boolean = false;
-    public previousBoard: Block[][];
 
     protected onLoad(): void {
         GameManager.ins = this;
@@ -52,6 +51,8 @@ export default class GameManager extends cc.Component {
         let block = SimplePool.spawnT<Block>(PoolType.Block, this.Stage_1[posBlock.i * 4 + posBlock.j].getWorldPosition(), 0);
         block.spawnEffect();
         Board.Matrix[posBlock.i][posBlock.j] = block;
+        if(Board.checkEndGame()) console.log('-------------- end game ---------------');
+        else console.log('asdfa');
     }
 
     protected start(): void {
@@ -61,19 +62,18 @@ export default class GameManager extends cc.Component {
 
     private onKeyDown(event: cc.Event.EventKeyboard): void {
         if (this.gameState == GameState.Spawning) return;
-        this.previousBoard = Board.Matrix;
         
         switch (event.keyCode) {
-            case cc.macro.KEY.left:
+            case cc.macro.KEY.a:
                 Board.moveLeft();
                 break;
-            case cc.macro.KEY.right:
+            case cc.macro.KEY.d:
                 Board.moveRight();
                 break;
-            case cc.macro.KEY.up:
+            case cc.macro.KEY.w:
                 Board.moveUp();
                 break;
-            case cc.macro.KEY.down:
+            case cc.macro.KEY.s:
                 Board.moveDown();
                 break;
         }

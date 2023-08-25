@@ -5,7 +5,7 @@
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
-import { Game, TypeBlock } from "./GameConstant";
+import { TypeBlock } from "./GameConstant";
 import PoolMember from "./Pool/PoolMember";
 import SimplePool from "./Pool/SimplePool";
 import Utilities from "./Utilities";
@@ -18,10 +18,8 @@ export default class Block extends PoolMember {
     value: cc.Label = null;
 
     private timeSpawn: number = 0.1;
-    private timePowerUp: number = 0.07;
-    private timeMove: number = Game.timeMove;
-
-    public lastPos: cc.Vec3 = null;
+    private timeMove: number = 0.15;
+    
     public currentValue: number = 2;
 
     public changeProp(){
@@ -55,8 +53,8 @@ export default class Block extends PoolMember {
     }
     public powerUp(){
         cc.tween(this.node)
-        .to(this.timePowerUp, {scale: 1.1})
-        .to(this.timePowerUp, {scale: 1})
+        .to(this.timeSpawn / 2, {scale: 1.1})
+        .to(this.timeSpawn / 2, {scale: 1})
         .start();
     }
     public spawnEffect(){

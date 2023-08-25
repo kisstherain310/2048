@@ -7,6 +7,7 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class Board {
     private static timeSpawn: number = 150;
+    private static blockNumber: number = 0;
     public static Matrix: Block[][] = [
         [null, null, null, null],
         [null, null, null, null],
@@ -17,7 +18,21 @@ export default class Board {
     public static generateBlock(): { i: number, j: number } {
         let newPos = Utilities.randomIndex();
         while (this.Matrix[newPos.i][newPos.j] != null) newPos = Utilities.randomIndex();
+        this.blockNumber++;
         return newPos;
+    }
+
+    public static checkEndGame(): boolean{
+        if(this.blockNumber == 16){
+            for(let i = 0; i < 4; i++){
+                for(let j = 0; j < 4; j++){
+                    if(j <= 2 && this.Matrix[i][j].currentValue == this.Matrix[i][j + 1].currentValue) return false;
+                    if(i <= 2 && this.Matrix[i][j].currentValue == this.Matrix[i + 1][j].currentValue) return false;
+                }
+            }
+            return true;
+        }
+        return false;
     }
 
     private static updateHorizol(i: number, j: number, index: number, direction: number) {
@@ -27,6 +42,7 @@ export default class Board {
         this.Matrix[i][index + direction].changeValue();
 
         setTimeout(() => this.Matrix[i][index + direction].changeProp(), this.timeSpawn);
+        this.blockNumber--;
         this.Matrix[i][j] = null;
     }
 
@@ -37,6 +53,7 @@ export default class Board {
         this.Matrix[index + direction][j].changeValue();
 
         setTimeout(() => this.Matrix[index + direction][j].changeProp(), this.timeSpawn);
+        this.blockNumber--;
         this.Matrix[i][j] = null;
     }
 
