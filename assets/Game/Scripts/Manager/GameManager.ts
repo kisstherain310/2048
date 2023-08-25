@@ -10,15 +10,20 @@ import Board from "../Board";
 import { Game } from "../GameConstant";
 import ReplayButton from "../GameFeature/Replay";
 import SimplePool, { PoolType } from "../Pool/SimplePool";
+import Score from "../Score";
 import UIManager from "./UIManager";
 
+/*
+fix di chuyển sai
+undo 
+ */
 
 const { ccclass, property } = cc._decorator;
 
 export enum GameState {
     None = 0,
     Spawning = 1,
-    End = 2,
+    End = 3,
 }
 
 @ccclass
@@ -96,6 +101,7 @@ export default class GameManager extends cc.Component {
             setTimeout(() => {
                 this.generateBlock();
                 this.gameState = GameState.None;
+                Score.Ins.changeScore();
             }, Game.timeDelay * 1000);
             this.isChange = false;
         }

@@ -5,6 +5,7 @@
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
+import BestScore from "../BestScore";
 import Board from "../Board";
 import { TypeBlock } from "../GameConstant";
 import GameManager, { GameState } from "../Manager/GameManager";
@@ -44,11 +45,13 @@ export default class ReplayButton extends cc.Component {
     private onTouchBegan() : void{
         if(Board.checkEndGame()){
             UIManager.Ins.onClose(0);
+            BestScore.Ins.changeBestScore();
             Board.resetGame();
             GameManager.Ins.onInit();
             this.backOldColor();
         } else {
             UIManager.Ins.onOpen(1);
+            GameManager.Ins.gameState = GameState.End;
         }
     }
 }

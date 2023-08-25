@@ -1,5 +1,7 @@
+import BestScore from "./BestScore";
 import Block from "./Block";
 import GameManager from "./Manager/GameManager";
+import Score from "./Score";
 import Utilities from "./Utilities";
 
 const { ccclass, property } = cc._decorator;
@@ -30,7 +32,6 @@ export default class Board {
                     if(i <= 2 && this.Matrix[i][j].currentValue == this.Matrix[i + 1][j].currentValue) return false;
                 }
             }
-            this.blockNumber = 0;
             return true;
         }
         return false;
@@ -46,6 +47,7 @@ export default class Board {
                 }
             }
         }
+        Score.Ins.resetScore();
     }
 
     private static updateHorizol(i: number, j: number, index: number, direction: number) {

@@ -5,6 +5,7 @@
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
+import GameManager, { GameState } from "../Manager/GameManager";
 import UIManager from "../Manager/UIManager";
 
 const {ccclass, property} = cc._decorator;
@@ -21,5 +22,6 @@ export default class ResetGame extends cc.Component {
 
     private onTouchBegan(){
         UIManager.Ins.onClose(1);
+        GameManager.Ins.gameState = GameState.None;
     }
 }

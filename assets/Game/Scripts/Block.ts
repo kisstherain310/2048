@@ -8,6 +8,7 @@
 import { TypeBlock } from "./GameConstant";
 import PoolMember from "./Pool/PoolMember";
 import SimplePool from "./Pool/SimplePool";
+import Score from "./Score";
 import Utilities from "./Utilities";
 
 const {ccclass, property} = cc._decorator;
@@ -26,6 +27,8 @@ export default class Block extends PoolMember {
         this.value.string = `${this.currentValue}`;
         this.node.children[0].color = Utilities.convertToCCColor(TypeBlock[this.currentValue]);
         this.powerUp();
+
+        Score.Ins.score += this.currentValue;
     }
     public changeValue(){
         this.currentValue *= 2;
