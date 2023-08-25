@@ -34,7 +34,7 @@ export default class Block extends PoolMember {
     private resetBlock(){
         this.currentValue = 2;
         this.value.string = `2`;
-        this.node.children[0].color = Utilities.convertToCCColor('eee4da');
+        this.node.children[0].color = Utilities.convertToCCColor(TypeBlock[2]);
     }
 
     public onDeath(){

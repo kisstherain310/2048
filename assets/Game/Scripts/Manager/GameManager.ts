@@ -5,16 +5,19 @@
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
-import Block from "./Block";
-import Board from "./Board";
-import { Game } from "./GameConstant";
-import SimplePool, { PoolType } from "./Pool/SimplePool";
+import Block from "../Block";
+import Board from "../Board";
+import { Game } from "../GameConstant";
+import SimplePool, { PoolType } from "../Pool/SimplePool";
+import UIManager from "./UIManager";
+
 
 const { ccclass, property } = cc._decorator;
 
 enum GameState {
     None = 0,
     Spawning = 1,
+    End = 2,
 }
 
 @ccclass
@@ -51,8 +54,10 @@ export default class GameManager extends cc.Component {
         let block = SimplePool.spawnT<Block>(PoolType.Block, this.Stage_1[posBlock.i * 4 + posBlock.j].getWorldPosition(), 0);
         block.spawnEffect();
         Board.Matrix[posBlock.i][posBlock.j] = block;
-        if(Board.checkEndGame()) console.log('-------------- end game ---------------');
-        else console.log('asdfa');
+        if(Board.checkEndGame()){
+            UIManager.Ins.onOpen(0);
+            setTimeout(() => this.gameState = GameState.End, Game.timeDelay);
+        }
     }
 
     protected start(): void {
@@ -62,6 +67,7 @@ export default class GameManager extends cc.Component {
 
     private onKeyDown(event: cc.Event.EventKeyboard): void {
         if (this.gameState == GameState.Spawning) return;
+        if (this.gameState == GameState.End) return;
         
         switch (event.keyCode) {
             case cc.macro.KEY.a:
@@ -83,7 +89,7 @@ export default class GameManager extends cc.Component {
             setTimeout(() => {
                 this.generateBlock();
                 this.gameState = GameState.None;
-            }, Game.timeMove * 1000);
+            }, Game.timeDelay * 1000);
             this.isChange = false;
         }
     }

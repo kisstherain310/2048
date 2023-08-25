@@ -15,5 +15,5 @@ export const TypeBlock = {
 }
 
 export const Game = {
-    timeMove: 0.15,
+    timeDelay: 0.15,
 }

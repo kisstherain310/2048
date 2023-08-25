@@ -5,9 +5,6 @@
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
-import Board from "./Board";
-import GameManager from "./GameManager";
-
 const {ccclass, property} = cc._decorator;
 
 @ccclass

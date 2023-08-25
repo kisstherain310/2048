@@ -1,5 +1,5 @@
 import Block from "./Block";
-import GameManager from "./GameManager";
+import GameManager from "./Manager/GameManager";
 import Utilities from "./Utilities";
 
 const { ccclass, property } = cc._decorator;
