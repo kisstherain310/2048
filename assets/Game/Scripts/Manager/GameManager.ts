@@ -13,17 +13,12 @@ import SimplePool, { PoolType } from "../Pool/SimplePool";
 import Score from "../Score/Score";
 import UIManager from "./UIManager";
 
-/*
-fix di chuyển sai
-undo 
- */
-
 const { ccclass, property } = cc._decorator;
 
 export enum GameState {
-    None = 0,
+    Playing = 0,
     Spawning = 1,
-    End = 3,
+    End = 2,
 }
 
 @ccclass
@@ -43,7 +38,7 @@ export default class GameManager extends cc.Component {
     @property(cc.Node)
     Stage_1: cc.Node[] = [];
 
-    public gameState: GameState = GameState.None;
+    public gameState: GameState = GameState.Playing;
     public isChange: boolean = false;
 
     protected onLoad(): void {
@@ -72,7 +67,7 @@ export default class GameManager extends cc.Component {
     }
 
     public onInit(){
-        this.gameState = GameState.None;
+        this.gameState = GameState.Playing;
         this.generateBlock();
         this.generateBlock();
     }
@@ -100,7 +95,7 @@ export default class GameManager extends cc.Component {
             this.gameState = GameState.Spawning;
             setTimeout(() => {
                 this.generateBlock();
-                this.gameState = GameState.None;
+                this.gameState = GameState.Playing;
                 Score.Ins.changeScore();
             }, Game.timeDelay * 1000);
             this.isChange = false;

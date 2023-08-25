@@ -22,6 +22,6 @@ export default class ResetGame extends cc.Component {
 
     private onTouchBegan(){
         UIManager.Ins.onClose(1);
-        GameManager.Ins.gameState = GameState.None;
+        GameManager.Ins.gameState = GameState.Playing;
     }
 }
