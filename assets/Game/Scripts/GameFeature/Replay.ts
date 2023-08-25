@@ -42,9 +42,13 @@ export default class ReplayButton extends cc.Component {
     }
 
     private onTouchBegan() : void{
-        UIManager.Ins.onClose(0);
-        Board.resetGame();
-        GameManager.Ins.onInit();
-        this.backOldColor();
+        if(Board.checkEndGame()){
+            UIManager.Ins.onClose(0);
+            Board.resetGame();
+            GameManager.Ins.onInit();
+            this.backOldColor();
+        } else {
+            UIManager.Ins.onOpen(1);
+        }
     }
 }
