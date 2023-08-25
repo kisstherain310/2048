@@ -7,6 +7,7 @@
 
 import Block from "./Block";
 import Board from "./Board";
+import { Game } from "./GameConstant";
 import SimplePool, { PoolType } from "./Pool/SimplePool";
 
 const { ccclass, property } = cc._decorator;
@@ -46,26 +47,6 @@ export default class GameManager extends cc.Component {
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
     }
 
-    private onKeyDown(event: cc.Event.EventKeyboard): void {
-        if (this.gameState == GameState.Spawning) return;
-        this.previousBoard = Board.Matrix;
-        
-        switch (event.keyCode) {
-            case cc.macro.KEY.left:
-                this.handleEvent('left');
-                break;
-            case cc.macro.KEY.right:
-                this.handleEvent('right');
-                break;
-            case cc.macro.KEY.up:
-                this.handleEvent('up');
-                break;
-            case cc.macro.KEY.down:
-                this.handleEvent('down');
-                break;
-        }
-    }
-
     private generateBlock(): void {
         const posBlock = Board.generateBlock();
         let block = SimplePool.spawnT<Block>(PoolType.Block, this.Stage_1[posBlock.i * 4 + posBlock.j].getWorldPosition(), 0);
@@ -78,28 +59,31 @@ export default class GameManager extends cc.Component {
         this.generateBlock();
     }
 
-    public handleEvent(direction: string){
-        switch(direction){
-            case 'right':
-                Board.moveRight();
-                break;
-            case 'left':
+    private onKeyDown(event: cc.Event.EventKeyboard): void {
+        if (this.gameState == GameState.Spawning) return;
+        this.previousBoard = Board.Matrix;
+        
+        switch (event.keyCode) {
+            case cc.macro.KEY.left:
                 Board.moveLeft();
                 break;
-            case 'up':
+            case cc.macro.KEY.right:
+                Board.moveRight();
+                break;
+            case cc.macro.KEY.up:
                 Board.moveUp();
                 break;
-            case 'down':
+            case cc.macro.KEY.down:
                 Board.moveDown();
                 break;
         }
-        
+
         if(this.isChange){
             this.gameState = GameState.Spawning;
             setTimeout(() => {
                 this.generateBlock();
                 this.gameState = GameState.None;
-            }, 150)
+            }, Game.timeMove * 1000);
             this.isChange = false;
         }
     }
