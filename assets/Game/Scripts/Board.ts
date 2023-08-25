@@ -30,9 +30,22 @@ export default class Board {
                     if(i <= 2 && this.Matrix[i][j].currentValue == this.Matrix[i + 1][j].currentValue) return false;
                 }
             }
+            this.blockNumber = 0;
             return true;
         }
         return false;
+    }
+
+    public static resetGame(){
+        this.blockNumber = 0;
+        for(let i = 0; i < 4; i++){
+            for(let j = 0; j < 4; j++){
+                if(this.Matrix[i][j]){
+                    this.Matrix[i][j].onDeath();
+                    this.Matrix[i][j] = null;
+                }
+            }
+        }
     }
 
     private static updateHorizol(i: number, j: number, index: number, direction: number) {

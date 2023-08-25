@@ -8,13 +8,14 @@
 import Block from "../Block";
 import Board from "../Board";
 import { Game } from "../GameConstant";
+import ReplayButton from "../GameFeature/Replay";
 import SimplePool, { PoolType } from "../Pool/SimplePool";
 import UIManager from "./UIManager";
 
 
 const { ccclass, property } = cc._decorator;
 
-enum GameState {
+export enum GameState {
     None = 0,
     Spawning = 1,
     End = 2,
@@ -37,7 +38,7 @@ export default class GameManager extends cc.Component {
     @property(cc.Node)
     Stage_1: cc.Node[] = [];
 
-    private gameState: GameState = GameState.None;
+    public gameState: GameState = GameState.None;
     public isChange: boolean = false;
 
     protected onLoad(): void {
@@ -56,11 +57,17 @@ export default class GameManager extends cc.Component {
         Board.Matrix[posBlock.i][posBlock.j] = block;
         if(Board.checkEndGame()){
             UIManager.Ins.onOpen(0);
-            setTimeout(() => this.gameState = GameState.End, Game.timeDelay);
+            ReplayButton.Ins.changeColor();
+            setTimeout(() => this.gameState = GameState.End, Game.timeDelay/20);
         }
     }
 
     protected start(): void {
+        this.onInit();
+    }
+
+    public onInit(){
+        this.gameState = GameState.None;
         this.generateBlock();
         this.generateBlock();
     }

@@ -11,7 +11,6 @@ export const TypeBlock = {
     1024: 'e08c53' ,
     2048: 'ba6329' ,
     4096: 'dd600c' ,
-
 }
 
 export const Game = {
