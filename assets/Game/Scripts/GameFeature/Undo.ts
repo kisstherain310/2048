@@ -34,14 +34,17 @@ export default class Undo extends cc.Component {
     }
 
     private OldBoard(){
+        let cntBlock = 0;
         for(let i = 0; i < 4; i++){
             for(let j = 0; j < 4; j++){
                 if(Board.OldIndex[i * 4 + j]){
                     Board.Matrix[i][j] = SimplePool.spawnT<Block>(PoolType.Block, GameManager.Ins.Stage_1[i * 4 + j].getWorldPosition(), 0);
                     Board.Matrix[i][j].changeBlock(Board.OldIndex[i * 4 + j]);
+                    cntBlock++;
                 }
             }
         }
+        Board.blockNumber = cntBlock;
     }
 
     private onTouchBegan() : void{

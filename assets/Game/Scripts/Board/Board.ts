@@ -9,7 +9,7 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class Board {
     private static timeSpawn: number = 150;
-    private static blockNumber: number = 0;
+    public static blockNumber: number = 0;
     public static Matrix: Block[][] = [
         [null, null, null, null],
         [null, null, null, null],
