@@ -17,7 +17,7 @@ export default class Board {
         [null, null, null, null],
     ]
 
-    public static OldMatrix: Block[][];
+    public static OldIndex: number[] = [];
 
     public static generateBlock(): { i: number, j: number } {
         let newPos = Utilities.randomIndex();
@@ -92,19 +92,13 @@ export default class Board {
         this.Matrix[i][j] = null;
     }
 
-    public static Debug(){
-        for(let i = 0; i < 4; i++){
-            for(let j = 0; j < 4; j++){
-                console.log(this.OldMatrix[i][j]);
-            }
-        }
-        console.log('-----------------');
-        
-    }
-
     public static handleEvent(direction: string){
-        this.OldMatrix = [[...this.Matrix[0]], [...this.Matrix[1]], [...this.Matrix[2]], [...this.Matrix[3]]];
-        
+        this.OldIndex.length = 0;
+        Board.Matrix.forEach(blocks => blocks.forEach(block => {
+            if(block) this.OldIndex.push(block.currentValue);
+            else this.OldIndex.push(0);
+        }));
+
         switch (direction){
             case 'left':
                 this.moveLeft();

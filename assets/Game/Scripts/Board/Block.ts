@@ -32,6 +32,7 @@ export default class Block extends PoolMember {
     }
 
     public changeBlock(value: number){
+        this.currentValue = value;
         this.value.string = `${value}`;
         this.node.children[0].color = Utilities.convertToCCColor(TypeBlock[value]);
     }
