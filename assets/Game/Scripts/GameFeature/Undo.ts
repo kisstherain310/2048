@@ -19,7 +19,7 @@ export default class Undo extends cc.Component {
     }
 
     protected onDestroy(): void {
-        this.node.off(cc.Node.EventType.TOUCH_END, this.onTouchBegan, this);
+        this.node.off(cc.Node.EventType.TOUCH_START, this.onTouchBegan, this);
     }
 
     private clearBoard(){
