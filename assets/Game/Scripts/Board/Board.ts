@@ -90,7 +90,24 @@ export default class Board {
         this.Matrix[i][j] = null;
     }
 
-    public static moveRight() {
+    public static handleEvent(direction: string){
+        switch (direction){
+            case 'left':
+                this.moveLeft();
+                break;
+            case 'right':
+                this.moveRight()
+                break;
+            case 'up':
+                this.moveUp();
+                break;
+            case 'down':
+                this.moveDown();
+                break;
+        }
+    }
+
+    private static moveRight() {
         for (let i = 0; i < 4; i++) {
             for (let j = 2; j >= 0; j--) {
                 if (this.Matrix[i][j]) {
@@ -109,7 +126,7 @@ export default class Board {
         }
     }
 
-    public static moveLeft() {
+    private static moveLeft() {
         for (let i = 0; i < 4; i++) {
             for (let j = 1; j <= 3; j++) {
                 if (this.Matrix[i][j]) {
@@ -128,7 +145,7 @@ export default class Board {
         }
     }
 
-    public static moveUp() {
+    private static moveUp() {
         for (let j = 0; j < 4; j++) {
             for (let i = 1; i <= 3; i++) {
                 if (this.Matrix[i][j]) {
@@ -147,7 +164,7 @@ export default class Board {
         }
     }
 
-    public static moveDown() {
+    private static moveDown() {
         for (let j = 0; j < 4; j++) {
             for (let i = 2; i >= 0; i--) {
                 if (this.Matrix[i][j]) {

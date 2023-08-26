@@ -18,7 +18,7 @@ export default class Utilities{
     const vectorDir = {x: 0, y: 0};
     vectorDir.x = newPos.x - lastPos.x;
     vectorDir.y = newPos.y - lastPos.y;
-    if(Math.abs(vectorDir.y) < vectorDir.x){
+    if(Math.abs(vectorDir.y) < Math.abs(vectorDir.x)){
         if(vectorDir.x > 0) return 'right';
         else return 'left';
     } else {
