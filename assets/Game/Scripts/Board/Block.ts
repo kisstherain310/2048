@@ -25,12 +25,17 @@ export default class Block extends PoolMember {
     public currentValue: number = 2;
 
     public changeProp(){
-        this.value.string = `${this.currentValue}`;
-        this.node.children[0].color = Utilities.convertToCCColor(TypeBlock[this.currentValue]);
+        this.changeBlock(this.currentValue)
         this.powerUp();
 
         Score.Ins.score += this.currentValue;
     }
+
+    public changeBlock(value: number){
+        this.value.string = `${value}`;
+        this.node.children[0].color = Utilities.convertToCCColor(TypeBlock[value]);
+    }
+
     public changeValue(){
         this.currentValue *= 2;
     }

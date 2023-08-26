@@ -21,7 +21,7 @@ export default class Utilities{
     if(Math.abs(vectorDir.y) < Math.abs(vectorDir.x)){
         if(vectorDir.x > 0) return 'right';
         else return 'left';
-    } else {
+    } else if(Math.abs(vectorDir.y) > Math.abs(vectorDir.x)){
         if(vectorDir.y > 0) return 'up';
         else return 'down';
     }

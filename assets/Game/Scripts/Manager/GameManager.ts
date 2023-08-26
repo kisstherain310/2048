@@ -134,15 +134,19 @@ export default class GameManager extends cc.Component {
         
         switch (event.keyCode) {
             case cc.macro.KEY.a:
+            case cc.macro.KEY.left:
                 direction = 'left';
                 break;
             case cc.macro.KEY.d:
+            case cc.macro.KEY.right:
                 direction = 'right'
                 break;
             case cc.macro.KEY.w:
+            case cc.macro.KEY.up:
                 direction = 'up';
                 break;
             case cc.macro.KEY.s:
+            case cc.macro.KEY.down:
                 direction = 'down'
                 break;
         }

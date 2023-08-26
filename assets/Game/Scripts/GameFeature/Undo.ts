@@ -5,10 +5,18 @@
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
+import Block from "../Board/Block";
+import Board from "../Board/Board";
+import { TypeBlock } from "../GameConstant";
+import GameManager from "../Manager/GameManager";
+import SimplePool, { PoolType } from "../Pool/SimplePool";
+import Utilities from "../Utilities";
+
 const {ccclass, property} = cc._decorator;
 
 @ccclass
 export default class Undo extends cc.Component {
+    private MatrixIndex: number[] = [];
     protected onLoad(): void {
         this.node.on(cc.Node.EventType.TOUCH_START, this.onTouchBegan, this);
     }
@@ -17,11 +25,36 @@ export default class Undo extends cc.Component {
         this.node.off(cc.Node.EventType.TOUCH_END, this.onTouchBegan, this);
     }
 
+    private clearBoard(){
+        for(let i = 0; i < 4; i++){
+            for(let j = 0; j < 4; j++){
+                if(Board.Matrix[i][j]){
+                    Board.Matrix[i][j].onDeath();
+                    Board.Matrix[i][j] = null;
+                }
+            }
+        }
+    }
+
+    private OldBoard(){
+        console.log(this.MatrixIndex);
+        for(let i = 0; i < 4; i++){
+            for(let j = 0; j < 4; j++){
+                if(Board.OldMatrix[i][j]){
+                    Board.Matrix[i][j] = SimplePool.spawnT<Block>(PoolType.Block, GameManager.Ins.Stage_1[i * 4 + j].getWorldPosition(), 0);
+                    Board.Matrix[i][j].changeBlock(this.MatrixIndex[i * 4 + j]);
+                }
+            }
+        }
+    }
+
     private onTouchBegan() : void{
-        /*
-            1. Đi từ A đến B
-            2. Kh di chuyển
-            3. Di chuyển rồi lên điểm
-        */
+        this.MatrixIndex.length = 0;
+        Board.OldMatrix.forEach(blocks => blocks.forEach(block => {
+            if(block) this.MatrixIndex.push(block.currentValue)
+            else this.MatrixIndex.push(0)
+        }));
+        this.clearBoard();
+        this.OldBoard();
     }
 }
