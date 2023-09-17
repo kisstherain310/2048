@@ -24,6 +24,7 @@ export default class ReplayButton extends cc.Component {
 
     private originalColor: string = 'BBADA0';
     private newColor: string = TypeBlock[2048];
+    private isLose: boolean = false;
 
     protected onLoad(): void {
         ReplayButton.ins = this;
@@ -42,8 +43,21 @@ export default class ReplayButton extends cc.Component {
         this.node.color = Utilities.convertToCCColor(this.originalColor);
     }
 
+    public losed(){
+        this.isLose = true;
+    }
+
+    private resetGame(){
+        this.isLose = false;
+    }
+
+    public checkLose(): boolean{
+        return this.isLose;
+    }
+
     private onTouchBegan() : void{
         if(Board.checkEndGame()){
+            this.resetGame();
             UIManager.Ins.onClose(0);
             BestScore.Ins.changeBestScore();
             Board.resetGame();

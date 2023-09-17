@@ -100,6 +100,7 @@ export default class GameManager extends cc.Component {
         if(Board.checkEndGame()){
             UIManager.Ins.onOpen(0);
             ReplayButton.Ins.changeColor();
+            ReplayButton.Ins.losed();
             setTimeout(() => this.gameState = GameState.End, Game.timeDelay/20);
         }
     }

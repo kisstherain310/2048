@@ -8,7 +8,10 @@
 import Block from "../Board/Block";
 import Board from "../Board/Board";
 import GameManager from "../Manager/GameManager";
+import UIManager from "../Manager/UIManager";
 import SimplePool, { PoolType } from "../Pool/SimplePool";
+import Score from "../Score/Score";
+import ReplayButton from "./Replay";
 
 const {ccclass, property} = cc._decorator;
 
@@ -48,7 +51,9 @@ export default class Undo extends cc.Component {
     }
 
     private onTouchBegan() : void{
+        if(ReplayButton.Ins.checkLose()) return;
         this.clearBoard();
         this.OldBoard();
+        Score.Ins.onUndo();
     }
 }

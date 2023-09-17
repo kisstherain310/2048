@@ -17,6 +17,7 @@ export default class Score extends cc.Component {
     }
 
     public score: number = 0;
+    public oldScore: number = 0;
 
     protected onLoad(): void {
         Score.ins = this;
@@ -25,8 +26,17 @@ export default class Score extends cc.Component {
     @property(cc.Label)
     curScore: cc.Label = null;
 
+    public setOldScore(){
+        this.oldScore = this.score;
+    }
+
     public changeScore(){
         this.curScore.string = `${this.score}`;
+    }
+
+    public onUndo(){
+        this.score = this.oldScore;
+        this.changeScore();
     }
 
     public resetScore(){

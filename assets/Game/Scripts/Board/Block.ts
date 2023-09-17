@@ -28,6 +28,7 @@ export default class Block extends PoolMember {
         this.changeBlock(this.currentValue)
         this.powerUp();
 
+        Score.Ins.setOldScore();
         Score.Ins.score += this.currentValue;
     }
 
